@@ -2,35 +2,114 @@ getgenv().SecureMode = true
 local ArrayField = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua'))()
 
 local Window = ArrayField:CreateWindow({
-   Name = "ArrayField Example Window",
-   LoadingTitle = "ArrayField Interface Suite",
-   LoadingSubtitle = "by Arrays",
+   Name = "Jay72s Hub",
+   LoadingTitle = ".gg/w6tuEDxMwt",
+   LoadingSubtitle = "by Jay72",
    ConfigurationSaving = {
-      Enabled = true,
+      Enabled = false,
       FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "ArrayField"
+      FileName = "ArrayFieldJaysHub"
    },
    Discord = {
-      Enabled = false,
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+      Enabled = true,
+      Invite = "w6tuEDxMwt", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
    },
-   KeySystem = false, -- Set this to true to use our key system
+   KeySystem = true, -- Set this to true to use our key system
    KeySettings = {
-      Title = "Untitled",
-      Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided",
-      FileName = "Key", -- It is recommended to use something unique as other scripts using ArrayField may overwrite your key file
+      Title = "Jay72s Hub",
+      Subtitle = ".gg/w6tuEDxMwt",
+      Note = "Join the discord for the key.",
+      FileName = "JaysKey", -- It is recommended to use something unique as other scripts using ArrayField may overwrite your key file
       SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = true, -- If this is true, set Key below to the RAW site you would like ArrayField to get the key from
       Actions = {
             [1] = {
-                Text = 'Click here to copy the key link <--',
+                Text = 'Click here to copy the key link <-- might not work',
                 OnPress = function()
-                    print('Pressed')
+                    print('Pressed Might not have worked if so mannualy type it.')
                 end,
                 }
             },
       Key = {"https://pastebin.com/raw/AX1NNKVa"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
+})
+
+Window:Prompt({
+    Title = 'Interface Prompt',
+    SubTitle = 'May Your God Bless You.',
+    Content = 'Benefaciat tibi Deus tuus..',
+    Actions = {
+        Accept = {
+            Name = 'Accept',
+            Callback = function()
+                print('Pressed')
+            end,
+        }
+    }
+})
+
+local Tab = Window:CreateTab("Scripts", nil) -- Title, Image
+local Section = Tab:CreateSection("Main",true) -- The 2nd argument is to tell if its only a Title and doesnt contain element
+
+ArrayField:Notify({
+   Title = "Executed",
+   Content = ".gg/w6tuEDxMwt",
+   Duration = 5,
+   Image = nil,
+   Actions = { -- Notification Buttons
+      Ignore = {
+         Name = "Close",
+         Callback = function()
+         print("The user tapped Close.")
+      end
+   },
+ },
+})
+
+local Slider = Tab:CreateSlider({
+   Name = "WalkSpeed 16 is normal",
+   Range = {0, 500},
+   Increment = 10,
+   Suffix = "Speed",
+   CurrentValue = 16,
+   Flag = "Slider1", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(Value)
+   local players = game:GetService("Players")
+
+local function bypassWalkSpeed()
+    if getgenv().executed then
+        print("Walkspeed Already Bypassed - Applying Settings Changes")
+        if not getgenv().Enabled then
+            return
+        end
+    else
+        getgenv().executed = true
+        print("Walkspeed Bypassed")
+
+        local mt = getrawmetatable(game)
+        setreadonly(mt, false)
+
+        local oldindex = mt.__index
+        mt.__index = newcclosure(function(self, b)
+            if b == 'WalkSpeed' then
+                return 16
+            end
+            return oldindex(self, b)
+        end)
+    end
+end
+
+bypassWalkSpeed()
+
+players.LocalPlayer.CharacterAdded:Connect(function(char)
+    bypassWalkSpeed()
+    char:WaitForChild("Humanoid").WalkSpeed = getgenv().Speed
+end)
+
+while getgenv().Enabled and wait() do
+    players.LocalPlayer.Character:WaitForChild("Humanoid").WalkSpeed = getgenv().Speed
+end The function that takes place when the slider changes
+   -- The variable (Value) is a number which correlates to the value the slider is currently at
+   end,
 })
